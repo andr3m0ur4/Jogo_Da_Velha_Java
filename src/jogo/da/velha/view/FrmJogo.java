@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle;
@@ -20,6 +21,8 @@ import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import jogo.da.velha.model.beans.JogoDaVelha;
+import jogo.da.velha.model.beans.Usuario;
+import jogo.da.velha.model.dao.UsuarioDAO;
 
 public class FrmJogo extends JFrame {
     private JButton btn1;
@@ -72,10 +75,17 @@ public class FrmJogo extends JFrame {
     private Icon jogador1;
     private Icon jogador2;
     private JogoDaVelha jogoDaVelha;
+    private Usuario usuario1;
+    private Usuario usuario2;
+    private UsuarioDAO dao;
+    private int vitoriaJogador1;
+    private int vitoriaJogador2;
+    private int empate;
     
     public FrmJogo() {
         initComponents();
         jogoDaVelha = new JogoDaVelha();
+        dao = new UsuarioDAO();
     }
     
     private void initComponents() {
@@ -621,6 +631,98 @@ public class FrmJogo extends JFrame {
         }
     }
     
+    private void carregarDadosJogadores() {
+        usuario1 = dao.buscarPoId(FrmLogin.usuario.getId());
+        usuario2 = dao.buscarPoId(FrmLogin.usuario2.getId());
+        
+        if (usuario1 != null && usuario2 != null) {
+            lblJogador1.setText(usuario1.getNome());
+            lblJogador2.setText(usuario2.getNome());
+            lblNomeJogador1.setText(usuario1.getNome());
+            lblNomeJogador2.setText(usuario2.getNome());
+            
+            atualizarCampos();
+        }
+    }
+    
+    private void limparCampos() {
+        jogoDaVelha.btn1 = new StringBuilder();
+        jogoDaVelha.btn2 = new StringBuilder();
+        jogoDaVelha.btn3 = new StringBuilder();
+        jogoDaVelha.btn4 = new StringBuilder();
+        jogoDaVelha.btn5 = new StringBuilder();
+        jogoDaVelha.btn6 = new StringBuilder();
+        jogoDaVelha.btn7 = new StringBuilder();
+        jogoDaVelha.btn8 = new StringBuilder();
+        jogoDaVelha.btn9 = new StringBuilder();
+        btn1.setIcon(null);
+        btn2.setIcon(null);
+        btn3.setIcon(null);
+        btn4.setIcon(null);
+        btn5.setIcon(null);
+        btn6.setIcon(null);
+        btn7.setIcon(null);
+        btn8.setIcon(null);
+        btn9.setIcon(null);
+
+        jogoDaVelha.jogadorAtivo = true;
+    }
+    
+    private void vitoriaJogador1() {
+        JOptionPane.showMessageDialog(FrmJogo.this, "Jogador 1 ganhou");
+        usuario1.incrementarPartida();
+        usuario2.incrementarPartida();
+        usuario1.incrementarVitoria();
+        usuario2.incrementarDerrota();
+        vitoriaJogador1++;
+        atualizarCampos();
+        
+        lblNumeroVitorias1.setText("Número de vitórias: " + vitoriaJogador1);
+        //atualizarJogador1();
+        //atualizarJogador2();
+        limparCampos();
+    }
+    
+    private void vitoriaJogador2() {
+        JOptionPane.showMessageDialog(FrmJogo.this, "Jogador 2 ganhou");
+        usuario1.incrementarPartida();
+        usuario2.incrementarPartida();
+        usuario2.incrementarVitoria();
+        usuario1.incrementarDerrota();
+        vitoriaJogador2++;
+        atualizarCampos();
+        
+        lblNumeroVitorias2.setText("Número de vitórias: " + vitoriaJogador2);
+        //atualizarJogador1();
+        //atualizarJogador2();
+        limparCampos();
+    }
+    
+    private void empate() {
+        JOptionPane.showMessageDialog(FrmJogo.this, "O jogo empatou");
+        usuario1.incrementarPartida();
+        usuario2.incrementarPartida();
+        usuario1.incrementarEmpate();
+        usuario2.incrementarEmpate();
+        empate++;
+        lblNumeroEmpates.setText("Número de empates: " + empate);
+        //atualizarJogador1();
+        //atualizarJogador2();
+        limparCampos();
+    }
+    
+    public void atualizarCampos() {
+        lblPartidasJogador1.setText(Integer.toString(usuario1.getPartida()));
+        lblVitoriasJogador1.setText(Integer.toString(usuario1.getVitoria()));
+        lblDerrotasJogador1.setText(Integer.toString(usuario1.getDerrota()));
+        lblEmpatesJogador1.setText(Integer.toString(usuario1.getEmpate()));
+
+        lblPartidasJogador2.setText(Integer.toString(usuario2.getPartida()));
+        lblVitoriasJogador2.setText(Integer.toString(usuario2.getVitoria()));
+        lblDerrotasJogador2.setText(Integer.toString(usuario2.getDerrota()));
+        lblEmpatesJogador2.setText(Integer.toString(usuario2.getEmpate()));
+    }
+    
     private class JanelaListener extends WindowAdapter {
 
         @Override
@@ -644,12 +746,7 @@ public class FrmJogo extends JFrame {
             btn9.setBackground(Color.gray);
             btnSair.setBackground(Color.BLACK);
 
-            //jblJogador1A.setText(login.usuario);
-            //jblJogador2A.setText(login.usuario2);
-            //jblJogador1.setText(login.usuario);
-            //jblJogador2.setText(login.usuario2);
-            
-            //dadosJogadores();
+            carregarDadosJogadores();
         }
         
     }
@@ -688,6 +785,18 @@ public class FrmJogo extends JFrame {
                 configurarBotao(btn9, jogoDaVelha.btn9);
             }
             
+            int resultado = jogoDaVelha.verificarVencedor(new StringBuilder("X"));
+            
+            if (resultado > 0) {
+                if (resultado == 1) {
+                    vitoriaJogador1();
+                } else if (resultado == 2) {
+                    vitoriaJogador2();
+                } else {
+                    empate();
+                }
+            }
+            
         }
         
     }
@@ -696,7 +805,7 @@ public class FrmJogo extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+            limparCampos();
         }
         
     }
@@ -705,7 +814,10 @@ public class FrmJogo extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            /*ranking rank = new ranking();
+            rank.setVisible(true);
             
+            this.setVisible(false);*/
         }
         
     }
@@ -714,7 +826,10 @@ public class FrmJogo extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+            FrmLogin log = new FrmLogin();
+            log.setVisible(true);
+
+            setVisible(false);
         }
         
     }
@@ -723,7 +838,7 @@ public class FrmJogo extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+            System.exit(0);
         }
         
     }
