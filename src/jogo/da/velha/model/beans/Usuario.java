@@ -82,6 +82,22 @@ public class Usuario {
     public void setEmpate(int empate) {
         this.empate = empate;
     }
+    
+    public void incrementarPartida() {
+        this.partida++;
+    }
+    
+    public void incrementarVitoria() {
+        this.vitoria++;
+    }
+    
+    public void incrementarDerrota() {
+        this.derrota++;
+    }
+    
+    public void incrementarEmpate() {
+        this.empate++;
+    }
 
     @Override
     public String toString() {

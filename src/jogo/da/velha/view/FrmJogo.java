@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle;
@@ -77,6 +78,9 @@ public class FrmJogo extends JFrame {
     private Usuario usuario1;
     private Usuario usuario2;
     private UsuarioDAO dao;
+    private int vitoriaJogador1;
+    private int vitoriaJogador2;
+    private int empate;
     
     public FrmJogo() {
         initComponents();
@@ -637,15 +641,7 @@ public class FrmJogo extends JFrame {
             lblNomeJogador1.setText(usuario1.getNome());
             lblNomeJogador2.setText(usuario2.getNome());
             
-            lblPartidasJogador1.setText(Integer.toString(usuario1.getPartida()));
-            lblVitoriasJogador1.setText(Integer.toString(usuario1.getVitoria()));
-            lblDerrotasJogador1.setText(Integer.toString(usuario1.getDerrota()));
-            lblEmpatesJogador1.setText(Integer.toString(usuario1.getEmpate()));
-            
-            lblPartidasJogador2.setText(Integer.toString(usuario2.getPartida()));
-            lblVitoriasJogador2.setText(Integer.toString(usuario2.getVitoria()));
-            lblDerrotasJogador2.setText(Integer.toString(usuario2.getDerrota()));
-            lblEmpatesJogador2.setText(Integer.toString(usuario2.getEmpate()));
+            atualizarCampos();
         }
     }
     
@@ -670,6 +666,61 @@ public class FrmJogo extends JFrame {
         btn9.setIcon(null);
 
         jogoDaVelha.jogadorAtivo = true;
+    }
+    
+    private void vitoriaJogador1() {
+        JOptionPane.showMessageDialog(FrmJogo.this, "Jogador 1 ganhou");
+        usuario1.incrementarPartida();
+        usuario2.incrementarPartida();
+        usuario1.incrementarVitoria();
+        usuario2.incrementarDerrota();
+        vitoriaJogador1++;
+        atualizarCampos();
+        
+        lblNumeroVitorias1.setText("Número de vitórias: " + vitoriaJogador1);
+        //atualizarJogador1();
+        //atualizarJogador2();
+        limparCampos();
+    }
+    
+    private void vitoriaJogador2() {
+        JOptionPane.showMessageDialog(FrmJogo.this, "Jogador 2 ganhou");
+        usuario1.incrementarPartida();
+        usuario2.incrementarPartida();
+        usuario2.incrementarVitoria();
+        usuario1.incrementarDerrota();
+        vitoriaJogador2++;
+        atualizarCampos();
+        
+        lblNumeroVitorias2.setText("Número de vitórias: " + vitoriaJogador2);
+        //atualizarJogador1();
+        //atualizarJogador2();
+        limparCampos();
+    }
+    
+    private void empate() {
+        JOptionPane.showMessageDialog(FrmJogo.this, "O jogo empatou");
+        usuario1.incrementarPartida();
+        usuario2.incrementarPartida();
+        usuario1.incrementarEmpate();
+        usuario2.incrementarEmpate();
+        empate++;
+        lblNumeroEmpates.setText("Número de empates: " + empate);
+        //atualizarJogador1();
+        //atualizarJogador2();
+        limparCampos();
+    }
+    
+    public void atualizarCampos() {
+        lblPartidasJogador1.setText(Integer.toString(usuario1.getPartida()));
+        lblVitoriasJogador1.setText(Integer.toString(usuario1.getVitoria()));
+        lblDerrotasJogador1.setText(Integer.toString(usuario1.getDerrota()));
+        lblEmpatesJogador1.setText(Integer.toString(usuario1.getEmpate()));
+
+        lblPartidasJogador2.setText(Integer.toString(usuario2.getPartida()));
+        lblVitoriasJogador2.setText(Integer.toString(usuario2.getVitoria()));
+        lblDerrotasJogador2.setText(Integer.toString(usuario2.getDerrota()));
+        lblEmpatesJogador2.setText(Integer.toString(usuario2.getEmpate()));
     }
     
     private class JanelaListener extends WindowAdapter {
@@ -733,6 +784,19 @@ public class FrmJogo extends JFrame {
             if (obj == btn9) {
                 configurarBotao(btn9, jogoDaVelha.btn9);
             }
+            
+            int resultado = jogoDaVelha.verificarVencedor(new StringBuilder("X"));
+            
+            if (resultado > 0) {
+                if (resultado == 1) {
+                    vitoriaJogador1();
+                } else if (resultado == 2) {
+                    vitoriaJogador2();
+                } else {
+                    empate();
+                }
+            }
+            
         }
         
     }
