@@ -29,9 +29,9 @@ public class UsuarioDAO {
         }
     }
     
-    public String login(Usuario usuario) {
-        String nome = null;
-        String sql = "SELECT nome FROM usuario WHERE nome = ? AND senha = ?";
+    public int login(Usuario usuario) {
+        int id = 0;
+        String sql = "SELECT id FROM usuario WHERE nome = ? AND senha = ?";
         
         try {
             stmt = con.prepareStatement(sql);
@@ -40,7 +40,7 @@ public class UsuarioDAO {
             rs = stmt.executeQuery();
             
             if (rs.next()) {
-                nome = rs.getString("nome");
+                id = rs.getInt("id");
             }
             
             rs.close();
@@ -48,6 +48,34 @@ public class UsuarioDAO {
             throw new IllegalArgumentException(erro.getMessage());
         }
         
-        return nome;
+        return id;
+    }
+    
+    public Usuario buscarPoId(int id) {
+        Usuario usuario = null;
+        String sql = "SELECT * FROM usuario WHERE id = ?";
+        
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            
+            if (rs.next()) {
+                usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setPartida(rs.getInt("partida"));
+                usuario.setVitoria(rs.getInt("vitoria"));
+                usuario.setEmpate(rs.getInt("empate"));
+                usuario.setDerrota(rs.getInt("derrota"));
+            }
+            
+            rs.close();
+        } catch (SQLException erro) {
+            throw new IllegalArgumentException(erro.getMessage());
+        }
+        
+        return usuario;
     }
 }

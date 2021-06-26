@@ -39,8 +39,8 @@ public class FrmLogin  extends JFrame {
     private JTextField txtLogin2;
     private JPasswordField txtSenha;
     private JPasswordField txtSenha2;
-    private static Usuario usuario;
-    private static Usuario usuario2;
+    public static Usuario usuario;
+    public static Usuario usuario2;
     private UsuarioDAO dao;
     
     public FrmLogin() {
@@ -65,6 +65,7 @@ public class FrmLogin  extends JFrame {
         lbl6 = new JLabel();
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new JanelaListener());
         
         panel2.setBorder(BorderFactory.createEtchedBorder());
@@ -276,13 +277,13 @@ public class FrmLogin  extends JFrame {
         public void actionPerformed(ActionEvent e) {
             usuario = new Usuario(txtLogin.getText(), String.copyValueOf(txtSenha.getPassword()));
             dao = new UsuarioDAO();
-            usuario.setNome(dao.login(usuario));
+            usuario.setId(dao.login(usuario));
             
-            if (usuario.getNome() != null) {
+            if (usuario.getId() > 0) {
                 usuario2 = new Usuario(txtLogin2.getText(), String.copyValueOf(txtSenha2.getPassword()));
-                usuario2.setNome(dao.login(usuario2));
+                usuario2.setId(dao.login(usuario2));
                 
-                if (usuario2.getNome() != null) {
+                if (usuario2.getId() > 0) {
                     JOptionPane.showMessageDialog(null,"Todas as informações do jogo atual são temporárias e sempre que você ir para o rank elas resetarão", "Informação", JOptionPane.INFORMATION_MESSAGE);
                     
                     FrmJogo jogo = new FrmJogo();
