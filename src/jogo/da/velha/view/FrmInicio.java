@@ -2,22 +2,18 @@ package jogo.da.velha.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
 
-public class FrmInicio extends JFrame {
+public class FrmInicio extends Janela {
     private JButton btnCadastrar;
     private JButton btnLogin;
     private JButton btnSair;
@@ -27,6 +23,7 @@ public class FrmInicio extends JFrame {
     
     public FrmInicio() {
         initComponents();
+        centralizar();
     }
     
     private void initComponents() {
@@ -37,8 +34,6 @@ public class FrmInicio extends JFrame {
         btnLogin = new JButton();
         lbl2 = new JLabel();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
         addWindowListener(new JanelaListener());
 
         panel.setBorder(BorderFactory.createEtchedBorder());
@@ -125,39 +120,6 @@ public class FrmInicio extends JFrame {
             btnCadastrar.setBackground(Color.BLACK);
             btnLogin.setBackground(Color.BLACK);
             btnSair.setBackground(Color.BLACK);
-        }
-        
-    }
-    
-    private class SairListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.exit(0);
-        }
-        
-    }
-    
-    private class CadastrarListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            FrmCadastrar cad = new FrmCadastrar();
-            cad.setVisible(true);
-            
-            setVisible(false);
-        }
-        
-    }
-    
-    private class LoginListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            FrmLogin log = new FrmLogin();
-            log.setVisible(true);
-            
-            setVisible(false);
         }
         
     }

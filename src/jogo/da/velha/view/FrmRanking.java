@@ -11,17 +11,15 @@ import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
-import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import jogo.da.velha.model.beans.Usuario;
 import jogo.da.velha.model.dao.UsuarioDAO;
 
-public class FrmRanking extends JFrame {
+public class FrmRanking extends Janela {
     private JButton btnVoltar;
     private JPanel jPanel1;
     private JLabel lbl1;
@@ -58,6 +56,7 @@ public class FrmRanking extends JFrame {
     
     public FrmRanking() {
         initComponents();
+        centralizar();
         dao = new UsuarioDAO();
     }
     
@@ -95,8 +94,6 @@ public class FrmRanking extends JFrame {
         lblPontuacaoAtual2 = new JLabel();
         lblTopo = new JLabel();
         
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
         addWindowListener(new JanelaListener());
         
         panel1.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createTitledBorder(

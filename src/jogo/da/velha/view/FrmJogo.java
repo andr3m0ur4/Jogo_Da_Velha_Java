@@ -11,20 +11,18 @@ import javax.swing.GroupLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.LayoutStyle;
-import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 import jogo.da.velha.model.beans.JogoDaVelha;
 import jogo.da.velha.model.beans.Usuario;
 import jogo.da.velha.model.dao.UsuarioDAO;
 
-public class FrmJogo extends JFrame {
+public class FrmJogo extends Janela {
     private JButton btn1;
     private JButton btn2;
     private JButton btn3;
@@ -84,6 +82,7 @@ public class FrmJogo extends JFrame {
     
     public FrmJogo() {
         initComponents();
+        centralizar();
         jogoDaVelha = new JogoDaVelha();
         dao = new UsuarioDAO();
     }
@@ -140,8 +139,6 @@ public class FrmJogo extends JFrame {
         lblVitoriasJogador2 = new JLabel();
         lblPartidasJogador2 = new JLabel();
         
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
         addWindowListener(new JanelaListener());
         
         panel2.setBorder(BorderFactory.createTitledBorder(
@@ -669,7 +666,7 @@ public class FrmJogo extends JFrame {
     }
     
     private void vitoriaJogador1() {
-        JOptionPane.showMessageDialog(FrmJogo.this, "Jogador 1 ganhou");
+        JOptionPane.showMessageDialog(FrmJogo.this, usuario1.getNome() + " ganhou", "Mensagem de Vitória", JOptionPane.INFORMATION_MESSAGE);
         usuario1.incrementarPartida();
         usuario2.incrementarPartida();
         usuario1.incrementarVitoria();
@@ -683,7 +680,7 @@ public class FrmJogo extends JFrame {
     }
     
     private void vitoriaJogador2() {
-        JOptionPane.showMessageDialog(FrmJogo.this, "Jogador 2 ganhou");
+        JOptionPane.showMessageDialog(FrmJogo.this, usuario2.getNome() + " ganhou", "Mensagem de Vitória", JOptionPane.INFORMATION_MESSAGE);
         usuario1.incrementarPartida();
         usuario2.incrementarPartida();
         usuario2.incrementarVitoria();
@@ -697,7 +694,7 @@ public class FrmJogo extends JFrame {
     }
     
     private void empate() {
-        JOptionPane.showMessageDialog(FrmJogo.this, "O jogo empatou");
+        JOptionPane.showMessageDialog(FrmJogo.this, "O jogo empatou", "Mensagem de Empate", JOptionPane.INFORMATION_MESSAGE);
         usuario1.incrementarPartida();
         usuario2.incrementarPartida();
         usuario1.incrementarEmpate();
@@ -818,18 +815,6 @@ public class FrmJogo extends JFrame {
         
     }
     
-    private class RankingListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            FrmRanking ranking = new FrmRanking();
-            ranking.setVisible(true);
-            
-            setVisible(false);
-        }
-        
-    }
-    
     private class VoltarListener implements ActionListener {
 
         @Override
@@ -838,15 +823,6 @@ public class FrmJogo extends JFrame {
             log.setVisible(true);
 
             setVisible(false);
-        }
-        
-    }
-    
-    private class SairListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            System.exit(0);
         }
         
     }

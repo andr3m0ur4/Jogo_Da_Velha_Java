@@ -10,7 +10,6 @@ import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,12 +17,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 import jogo.da.velha.model.beans.Usuario;
 import jogo.da.velha.model.dao.UsuarioDAO;
 
-public class FrmLogin  extends JFrame {
+public class FrmLogin  extends Janela {
     private JButton btnEntrar;
     private JButton btnVoltar;
     private JLabel lbl1;
@@ -45,6 +43,7 @@ public class FrmLogin  extends JFrame {
     
     public FrmLogin() {
         initComponents();
+        centralizar();
     }
     
     private void initComponents() {
@@ -64,8 +63,6 @@ public class FrmLogin  extends JFrame {
         txtSenha2 = new JPasswordField();
         lbl6 = new JLabel();
         
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
         addWindowListener(new JanelaListener());
         
         panel2.setBorder(BorderFactory.createEtchedBorder());
@@ -255,18 +252,6 @@ public class FrmLogin  extends JFrame {
             panel3.setBackground(Color.BLACK);
             btnVoltar.setBackground(Color.BLACK);
             btnEntrar.setBackground(Color.BLACK);
-        }
-        
-    }
-    
-    private class VoltarListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            FrmInicio ini = new FrmInicio();
-            ini.setVisible(true);
-
-            setVisible(false);
         }
         
     }

@@ -9,7 +9,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.GroupLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,13 +16,12 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
-import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 import jogo.da.velha.model.beans.Usuario;
 import jogo.da.velha.model.dao.UsuarioDAO;
 
-public class FrmCadastrar extends JFrame {
+public class FrmCadastrar extends Janela {
     private JButton btnCadastrar;
     private JButton btnLogin;
     private JButton btnVoltar;
@@ -39,6 +37,7 @@ public class FrmCadastrar extends JFrame {
     
     public FrmCadastrar() {
         initComponents();
+        centralizar();
     }
     
     private void initComponents() {
@@ -53,8 +52,6 @@ public class FrmCadastrar extends JFrame {
         lbl1 = new JLabel();
         lbl4 = new JLabel();
 
-        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
         addWindowListener(new JanelaListener());
 
         panel.setBorder(new SoftBevelBorder(BevelBorder.RAISED));
@@ -193,30 +190,6 @@ public class FrmCadastrar extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Cadastro falhou!", "Mensagem de Erro", JOptionPane.ERROR_MESSAGE);
             }
-        }
-        
-    }
-    
-    private class VoltarListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            FrmInicio ini = new FrmInicio();
-            ini.setVisible(true);
-
-            setVisible(false);
-        }
-        
-    }
-    
-    private class LoginListener implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            FrmLogin log = new FrmLogin();
-            log.setVisible(true);
-            
-            setVisible(false);
         }
         
     }
