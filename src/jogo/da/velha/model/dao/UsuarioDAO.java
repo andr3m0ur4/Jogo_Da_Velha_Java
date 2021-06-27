@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import jogo.da.velha.model.beans.Usuario;
 import jogo.da.velha.util.Conexao;
 
@@ -64,7 +66,6 @@ public class UsuarioDAO {
                 usuario = new Usuario();
                 usuario.setId(rs.getInt("id"));
                 usuario.setNome(rs.getString("nome"));
-                usuario.setSenha(rs.getString("senha"));
                 usuario.setPartida(rs.getInt("partida"));
                 usuario.setVitoria(rs.getInt("vitoria"));
                 usuario.setEmpate(rs.getInt("empate"));
@@ -77,5 +78,43 @@ public class UsuarioDAO {
         }
         
         return usuario;
+    }
+    
+    public void atualizar(Usuario usuario) {
+        String sql = "UPDATE usuario SET partida = ?, vitoria = ?, derrota = ?, empate = ? WHERE id = ?";
+        
+        try {
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, usuario.getPartida());
+            stmt.setInt(2, usuario.getVitoria());
+            stmt.setInt(3, usuario.getDerrota());
+            stmt.setInt(4, usuario.getEmpate());
+            stmt.setInt(5, usuario.getId());
+            stmt.execute();
+        } catch (SQLException erro) {
+            throw new IllegalArgumentException(erro.getMessage());
+        }
+    }
+    
+    public List<Usuario> ranking() {
+        List<Usuario> usuarios = new ArrayList<>();
+        String sql = "SELECT id, nome, vitoria FROM usuario ORDER by vitoria DESC";
+        
+        try {
+            stmt = con.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            
+            while (rs.next()) {
+                Usuario usuario = new Usuario();
+                usuario.setId(rs.getInt("id"));
+                usuario.setNome(rs.getString("nome"));
+                usuario.setVitoria(rs.getInt("vitoria"));
+                usuarios.add(usuario);
+            }
+        } catch (SQLException erro) {
+            throw new IllegalArgumentException(erro.getMessage());
+        }
+        
+        return usuarios;
     }
 }

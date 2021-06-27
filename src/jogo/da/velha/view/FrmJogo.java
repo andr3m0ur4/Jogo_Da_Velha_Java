@@ -405,35 +405,35 @@ public class FrmJogo extends JFrame {
 
         lblNumeroPartidas1.setFont(new Font("Tahoma", 1, 14));
         lblNumeroPartidas1.setForeground(new Color(255, 51, 51));
-        lblNumeroPartidas1.setText("Numero de Partidas:");
+        lblNumeroPartidas1.setText("Número de Partidas:");
 
         lblNumeroVitorias3.setFont(new Font("Tahoma", 1, 14));
         lblNumeroVitorias3.setForeground(new Color(255, 51, 51));
-        lblNumeroVitorias3.setText("Numero de Vitórias:");
+        lblNumeroVitorias3.setText("Número de Vitórias:");
 
         lblNumeroEmpates3.setFont(new Font("Tahoma", 1, 14));
         lblNumeroEmpates3.setForeground(new Color(255, 51, 51));
-        lblNumeroEmpates3.setText("Numero de Empates:");
+        lblNumeroEmpates3.setText("Número de Empates:");
 
         lblNumeroDerrotas1.setFont(new Font("Tahoma", 1, 14));
         lblNumeroDerrotas1.setForeground(new Color(255, 51, 51));
-        lblNumeroDerrotas1.setText("Numero de Derrotas:");
+        lblNumeroDerrotas1.setText("Número de Derrotas:");
 
         lblNumeroEmpates4.setFont(new Font("Tahoma", 1, 14));
         lblNumeroEmpates4.setForeground(new Color(102, 255, 102));
-        lblNumeroEmpates4.setText("Numero de Empates:");
+        lblNumeroEmpates4.setText("Número de Empates:");
 
         lblNumeroDerrotas2.setFont(new Font("Tahoma", 1, 14));
         lblNumeroDerrotas2.setForeground(new Color(102, 255, 102));
-        lblNumeroDerrotas2.setText("Numero de Derrotas:");
+        lblNumeroDerrotas2.setText("Número de Derrotas:");
 
         lblNumeroVitorias4.setFont(new Font("Tahoma", 1, 14));
         lblNumeroVitorias4.setForeground(new Color(102, 255, 102));
-        lblNumeroVitorias4.setText("Numero de Vitórias:");
+        lblNumeroVitorias4.setText("Número de Vitórias:");
 
         lblNumeroPartidas2.setFont(new Font("Tahoma", 1, 14));
         lblNumeroPartidas2.setForeground(new Color(102, 255, 102));
-        lblNumeroPartidas2.setText("Numero de Partidas:");
+        lblNumeroPartidas2.setText("Número de Partidas:");
 
         lblNick2.setFont(new Font("Tahoma", 1, 14));
         lblNick2.setForeground(new Color(102, 255, 102));
@@ -678,8 +678,7 @@ public class FrmJogo extends JFrame {
         atualizarCampos();
         
         lblNumeroVitorias1.setText("Número de vitórias: " + vitoriaJogador1);
-        //atualizarJogador1();
-        //atualizarJogador2();
+        atualizarJogadores();
         limparCampos();
     }
     
@@ -693,8 +692,7 @@ public class FrmJogo extends JFrame {
         atualizarCampos();
         
         lblNumeroVitorias2.setText("Número de vitórias: " + vitoriaJogador2);
-        //atualizarJogador1();
-        //atualizarJogador2();
+        atualizarJogadores();
         limparCampos();
     }
     
@@ -705,9 +703,10 @@ public class FrmJogo extends JFrame {
         usuario1.incrementarEmpate();
         usuario2.incrementarEmpate();
         empate++;
+        atualizarCampos();
+        
         lblNumeroEmpates.setText("Número de empates: " + empate);
-        //atualizarJogador1();
-        //atualizarJogador2();
+        atualizarJogadores();
         limparCampos();
     }
     
@@ -721,6 +720,11 @@ public class FrmJogo extends JFrame {
         lblVitoriasJogador2.setText(Integer.toString(usuario2.getVitoria()));
         lblDerrotasJogador2.setText(Integer.toString(usuario2.getDerrota()));
         lblEmpatesJogador2.setText(Integer.toString(usuario2.getEmpate()));
+    }
+    
+    public void atualizarJogadores() {
+        dao.atualizar(usuario1);
+        dao.atualizar(usuario2);
     }
     
     private class JanelaListener extends WindowAdapter {
@@ -785,15 +789,19 @@ public class FrmJogo extends JFrame {
                 configurarBotao(btn9, jogoDaVelha.btn9);
             }
             
-            int resultado = jogoDaVelha.verificarVencedor(new StringBuilder("X"));
+            int resultado = jogoDaVelha.verificarVencedor();
             
             if (resultado > 0) {
-                if (resultado == 1) {
-                    vitoriaJogador1();
-                } else if (resultado == 2) {
-                    vitoriaJogador2();
-                } else {
-                    empate();
+                switch (resultado) {
+                    case 1:
+                        vitoriaJogador1();
+                        break;
+                    case 2:
+                        vitoriaJogador2();
+                        break;
+                    default:
+                        empate();
+                        break;
                 }
             }
             
@@ -814,10 +822,10 @@ public class FrmJogo extends JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            /*ranking rank = new ranking();
-            rank.setVisible(true);
+            FrmRanking ranking = new FrmRanking();
+            ranking.setVisible(true);
             
-            this.setVisible(false);*/
+            setVisible(false);
         }
         
     }

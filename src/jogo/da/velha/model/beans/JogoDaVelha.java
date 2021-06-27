@@ -29,7 +29,7 @@ public class JogoDaVelha {
         jogadorAtivo = !jogadorAtivo;
     }
     
-    public int verificarVencedor(StringBuilder palpite) {
+    public int verificarVencedor() {
         // ------------------ verificando linhas -----------------
         if (isEqual(btn1, btn2) && isEqual(btn2, btn3)) {
 
