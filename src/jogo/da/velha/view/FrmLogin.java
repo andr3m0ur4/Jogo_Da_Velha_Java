@@ -216,7 +216,7 @@ public class FrmLogin  extends Janela {
                 .addContainerGap())
         );
         
-        lbl6.setIcon(new ImageIcon(getClass().getResource("./img/img14.gif")));
+        lbl6.setIcon(new ImageIcon(getClass().getResource("./img/pokemon2.gif")));
         
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

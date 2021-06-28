@@ -172,10 +172,10 @@ public class FrmJogo extends Janela {
         lblNumeroEmpates.setText("Número de Empates: 0");
 
         lbl2.setFont(new Font("Tahoma", 1, 14));
-        lbl2.setIcon(new ImageIcon(getClass().getResource("./img/pri.gif")));
+        lbl2.setIcon(new ImageIcon(getClass().getResource("./img/charizard2.gif")));
 
         lbl4.setFont(new Font("Tahoma", 1, 14));
-        lbl4.setIcon(new ImageIcon(getClass().getResource("./img/img3.gif")));
+        lbl4.setIcon(new ImageIcon(getClass().getResource("./img/mewtwo.gif")));
         
         GroupLayout panel2Layout = new GroupLayout(panel2);
         panel2.setLayout(panel2Layout);
@@ -274,8 +274,8 @@ public class FrmJogo extends Janela {
         btn8.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
         btn8.addActionListener(new BotoesJogoListener());
         
-        jogador1 = new ImageIcon(getClass().getResource("./img/pri.gif"));
-        jogador2 = new ImageIcon(getClass().getResource("./img/img3.gif"));
+        jogador1 = new ImageIcon(getClass().getResource("./img/charizard.gif"));
+        jogador2 = new ImageIcon(getClass().getResource("./img/mewtwo2.gif"));
         
         GroupLayout panel1Layout = new GroupLayout(panel1);
         panel1.setLayout(panel1Layout);

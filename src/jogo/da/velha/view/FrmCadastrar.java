@@ -132,7 +132,7 @@ public class FrmCadastrar extends Janela {
         lbl1.setText("Cadastro");
         lbl1.setToolTipText("");
 
-        lbl4.setIcon(new ImageIcon(getClass().getResource("./img/img14.gif")));
+        lbl4.setIcon(new ImageIcon(getClass().getResource("./img/pokemon.gif")));
 
         GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

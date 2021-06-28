@@ -62,7 +62,7 @@ public class FrmInicio extends Janela {
         btnLogin.setText("Login");
         btnLogin.addActionListener(new LoginListener());
 
-        lbl2.setIcon(new ImageIcon(getClass().getResource("./img/gif3.gif")));
+        lbl2.setIcon(new ImageIcon(getClass().getResource("./img/opening.gif")));
 
         GroupLayout panelLayout = new GroupLayout(panel);
         panel.setLayout(panelLayout);
